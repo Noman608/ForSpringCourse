@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jQuery Ajax Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#ajax-button").click(function() {
+        $.ajax({
+          url: "example.txt",
+          method: "GET",
+          data: { name: "John", age: 30 },
+          success: function(response) {
+            $("#response-container").html(response);
+          },
+          error: function(xhr, status, error) {
+            console.log("Error: " + error);
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <button id="ajax-button">Click me</button>
+  <div id="response-container"></div>
+</body>
+</html>
