@@ -133,7 +133,7 @@
                 // }else{
                 //     passError.text("")
                 // }
-
+                let isValid = true;
 
                 let inputFields = {
                     'firstName': 'Please enter your First Name.',
@@ -144,44 +144,60 @@
                 };
                 $.each(inputFields, (fieldName, errorMessage) => {
                     let value = $('#' + fieldName).val();
+                    //by default checking
                     if (value === "") {
                         $("." + fieldName + "Error").text(errorMessage);
+                        isValid = false;
+
                     }
+                      //checking first name
                     else if (fieldName === "firstName") {
                         if (value.length < 2) {
-                            $("." + fieldName + "Error").text("First name should be at least two alphanumeric characters");
+                            isValid = false;
+                            $("." + fieldName + "Error").text("First name should be at least two alphabetic character");
                         } else {
                             $("." + fieldName + "Error").text("");
                         }
                     }
+                    //checking second name
                     else if (fieldName === "lastName") {
                         if (value.length < 2) {
-                            $("." + fieldName + "Error").text("Last name should be at least two alphanumeric characters");
+                            isValid = false;
+                            $("." + fieldName + "Error").text("Last name should be at least two alphabetic character");
                         } else {
                             $("." + fieldName + "Error").text("");
                         }
                     }
+
+                    //email checking code
                     else if (fieldName === "email") {
                         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value))) {
+                            isValid = false;
                             $("." + fieldName + "Error").text("Enter a valid Email");
                         }
                         else {
                             $("." + fieldName + "Error").text("");
                         }
                     }
+
+                    //password checking code
                     else if (fieldName === "password") {
                         var number = /([0-9])/;
                         var alphabets = /([a-zA-Z])/;
                         var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
                         if (value.length < 8) {
+                            isValid = false;
                             $("." + fieldName + "Error").text("Weak (should be atleast 6 characters.)");
                         }
                         else if (value.length >= 8) {
                             if (!value.match(number)) {
+                                isValid = false;
                                 $("." + fieldName + "Error").html("<span class='passwordError' style='color: yellow;''>Enter at least one numeber in your password</span>");
                             } else if (!value.match(alphabets)) {
+                                isValid = false;
                                 $("." + fieldName + "Error").html("<span class='passwordError' style='color: yellow;''>Enter at least one alphabet in your password</span>");
                             } else if (!value.match(special_characters)) {
+                                isValid = false;
                                 $("." + fieldName + "Error").html("<span class='passwordError' style='color: yellow;''>Enter at least one special characters in your password</span>");
                             } else {
                                 $("." + fieldName + "Error").html("<span class='passwordError' style='color: red;''></span>");
@@ -191,13 +207,19 @@
                             $("." + fieldName + "Error").text("");
                         }
                     }
+                    //if everythig is good to go
                     else {
                         $("." + fieldName + "Error").text("");
                     }
+                    // function show(){
+                    //     $("." + showPassword).text();
+                    // }
                 });
 
-
-
+                if ((isValid)) {
+                    $('#myForm').unbind('submit').submit();
+                    alert('Form submitted!');
+                }
 
             })
         }
